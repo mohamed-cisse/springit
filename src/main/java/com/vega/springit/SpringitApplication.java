@@ -26,7 +26,7 @@ public class SpringitApplication {
     LinkRepository linkRepository;
     @Autowired
     CommentRepository commentRepository;
-    @Bean
+   // @Bean
     CommandLineRunner runner(LinkRepository linkRepository, CommentRepository commentRepository)
     {
         return args -> {
