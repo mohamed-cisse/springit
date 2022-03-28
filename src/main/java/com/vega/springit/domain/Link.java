@@ -4,12 +4,14 @@ import com.sun.istack.NotNull;
 import com.vega.springit.service.BeanUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
@@ -26,8 +28,11 @@ public class Link extends Auditable {
     @GeneratedValue
     private long id;
     @NotNull
+    @NotEmpty(message = "please enter title")
     private String title;
     @NotNull
+    @NotEmpty(message = "please enter url")
+    @URL(message = "please enter a valid Url ")
     private String url;
 
     // comment
