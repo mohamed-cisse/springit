@@ -1,5 +1,6 @@
 package com.vega.springit;
 
+
 import com.vega.springit.domain.Comment;
 import com.vega.springit.domain.Link;
 import com.vega.springit.repository.CommentRepository;
