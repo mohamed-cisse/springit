@@ -4,6 +4,7 @@ package com.vega.springit.domain;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,9 @@ import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor
+//@RequiredArgsConstructor
 @Data
+
 public class User implements UserDetails {
 
     @Id @GeneratedValue
@@ -24,7 +27,7 @@ public class User implements UserDetails {
     @NotNull @Column(unique = true, nullable = false)
     @Size(min = 8, max = 20)
     private  String email;
-    @NotNull @Column(length=100)
+    @NotNull
     private  String password;
     @NotNull @Column(nullable = false)
     private boolean enabled;
@@ -36,6 +39,25 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    public User(String email, String password, boolean enabled) {
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+    }
+
+    public void addRole(Role role)
+    {
+        roles.add(role);
+
+    }
+    public void addRoles(Set<Role> roles)
+    {
+       roles.forEach(this::addRole);
+
+
+
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
