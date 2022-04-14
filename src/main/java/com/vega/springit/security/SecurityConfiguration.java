@@ -27,15 +27,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/link/submit").hasRole("ADMIN")
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .usernameParameter("email");
 
     }
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/h2-console/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web
+//                .ignoring()
+//                .antMatchers("/h2-console/**");
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
