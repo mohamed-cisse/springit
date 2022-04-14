@@ -26,10 +26,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
                 .antMatchers("/link/submit").hasRole("ADMIN")
-                .and()
+                  .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .usernameParameter("email");
+                  .usernameParameter("email")
+                  .and()
+                .logout()
+                  .and()
+                .rememberMe();
 
     }
 //    @Override
