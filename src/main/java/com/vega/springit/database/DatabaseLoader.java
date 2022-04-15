@@ -8,7 +8,7 @@ import com.vega.springit.repository.CommentRepository;
 import com.vega.springit.repository.LinkRepository;
 import com.vega.springit.repository.RoleRepository;
 import com.vega.springit.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vega.springit.service.LinkService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,13 +21,13 @@ import java.util.Map;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
-    private LinkRepository linkRepository;
+    private LinkService linkService;
     private CommentRepository commentRepository;
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 
-    public DatabaseLoader(LinkRepository linkRepository, CommentRepository commentRepository, RoleRepository roleRepository, UserRepository userRepository) {
-        this.linkRepository = linkRepository;
+    public DatabaseLoader(LinkService linkService, CommentRepository commentRepository, RoleRepository roleRepository, UserRepository userRepository) {
+        this.linkService = linkService;
         this.commentRepository = commentRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -53,7 +53,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
         links.forEach((k,v) -> {
             Link link = new Link(k,v);
-            linkRepository.save(link);
+            linkService.save(link);
 
             // we will do something with comments later
             Comment spring = new Comment("Thank you for this link related to Spring Boot. I love it, great post!",link);
@@ -66,7 +66,7 @@ public class DatabaseLoader implements CommandLineRunner {
             }
         });
 
-        long linkCount = linkRepository.count();
+        long linkCount = linkService.count();
         System.out.println("Number of links in the database: " + linkCount );
 
     }
