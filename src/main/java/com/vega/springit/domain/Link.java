@@ -2,8 +2,7 @@ package com.vega.springit.domain;
 
 import com.sun.istack.NotNull;
 import com.vega.springit.service.BeanUtil;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -21,7 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+
+@Getter
+@Setter
 @NoArgsConstructor
 public class Link extends Auditable {
     @Id

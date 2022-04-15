@@ -1,6 +1,8 @@
 package com.vega.springit.controler;
 
+import com.vega.springit.domain.Comment;
 import com.vega.springit.domain.Link;
+import com.vega.springit.repository.CommentRepository;
 import com.vega.springit.repository.LinkRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +23,14 @@ import java.util.Optional;
 public class LinkController {
 
     LinkRepository linkRepository;
+    CommentRepository commentRepository;
     private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
-    public LinkController(LinkRepository linkRepository)
-    {
-         this.linkRepository=linkRepository;
+
+    public LinkController(LinkRepository linkRepository, CommentRepository commentRepository) {
+        this.linkRepository = linkRepository;
+        this.commentRepository = commentRepository;
     }
+
     @GetMapping("/")
     public String list(Model model)
     {
@@ -39,8 +44,12 @@ public class LinkController {
         Optional<Link> link= linkRepository.findById(id);
         if(link.isPresent())
         {
-        model.addAttribute("link",link.get());
-        model.addAttribute("success",model.containsAttribute("success"));
+            Link currentLink=link.get();
+            Comment comment=new Comment();
+            comment.setLink(currentLink);
+            model.addAttribute("comment",comment);
+            model.addAttribute("link",currentLink);
+            model.addAttribute("success",model.containsAttribute("success"));
             return "link/view";
         }else
             return "redirect:/";
@@ -68,6 +77,17 @@ public class LinkController {
       }
 
 
+    }
+    @PostMapping("link/comments")
+    public String addComment(@Valid Comment comment, BindingResult result){
+        if(result.hasErrors())
+        {
+            logger.info("Something went wrong.");
+        }else{
+            commentRepository.save(comment);
+            logger.info("New Comment Saved!");
+        }
+        return "redirect:/link/"+ comment.getLink().getId();
     }
 
 //    private LinkRepository linkRepository;
